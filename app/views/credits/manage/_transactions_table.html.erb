@@ -8,6 +8,9 @@
     </td>
     <td><%= h t.note %></td>
     <td align="center"><%= t.purchased ? 'Yes'.t : 'No'.t %></td>
+    <td>
+      <%= t.achievement && t.achievement.responds_to(:achievement_description) ? t.achievement.achievement_description : nil %>
+    </td>
     <td><%= t.created_at.strftime("%m/%d/%Y") %></td>
     <td><%= t.updated_at.strftime("%m/%d/%Y") %></td>
   <% end -%>

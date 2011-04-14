@@ -1,7 +1,8 @@
 class CreditTransaction < DomainModel
   belongs_to :credit_user_credit
   has_end_user :end_user_id
-
+  belongs_to :achievement, :polymorphic => true
+  
   validates_presence_of :credit_user_credit_id
   validates_presence_of :amount
   

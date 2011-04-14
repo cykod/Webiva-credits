@@ -21,6 +21,8 @@ class InitalSetup < ActiveRecord::Migration
       t.boolean :purchased, :default => false
       t.text :note
       t.integer :admin_user_id
+      t.integer :achievement_id
+      t.string :achievement_type
       t.timestamps
     end
   end

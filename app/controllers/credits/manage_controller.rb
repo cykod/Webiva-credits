@@ -41,6 +41,7 @@ class Credits::ManageController < ModuleController
                   :amount,
                   :note,
                   :purchased,
+                  hdr(:static, 'Achievement'),
                   :created_at,
                   :updated_at
                 ]
