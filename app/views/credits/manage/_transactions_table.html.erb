@@ -1,7 +1,9 @@
 <% active_table_for :transactions_table, @active_table_output,
    :refresh_url => url_for(:action => 'transactions', :path => @user_credit.id) do |t| %>
   <%- active_tr 'transaction', t.id do %>
-    <td align="center"><%= t.credits %></td>
+    <td align="center">
+      <%= content_type :span, t.credits, :style => t.credits >= 0 ? 'color:green;' : 'color:red;' %>
+    </td>
     <td><%= t.occurred_at.strftime("%m/%d/%Y") %></td>
   <% end -%>
 <% end -%>
