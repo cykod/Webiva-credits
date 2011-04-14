@@ -1,0 +1,7 @@
+<% active_table_for :transactions_table, @active_table_output,
+   :refresh_url => url_for(:action => 'transactions', :path => @user_credit.id) do |t| %>
+  <%- active_tr 'transaction', t.id do %>
+    <td align="center"><%= t.credits %></td>
+    <td><%= t.occurred_at.strftime("%m/%d/%Y") %></td>
+  <% end -%>
+<% end -%>

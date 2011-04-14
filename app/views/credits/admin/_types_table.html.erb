@@ -1,5 +1,5 @@
 <% active_table_for :types_table, @active_table_output do |t| %>
-  <%- active_tr 'language', t.id do %>
+  <%- active_tr 'type', t.id do %>
     <td><%= link_to t.name, :action => 'type', :path => t.id %></td>
     <td><%= t.created_at.strftime("%m/%d/%Y") %></td>
   <% end -%>
