@@ -1,0 +1,9 @@
+<% action_panel do |p| -%>
+  <%= p.link 'Add Type', :action => 'type', :icon => 'add.gif' %>
+<% end -%>
+
+<div class='admin_content'>
+<div id='types_table'>
+<%= render :partial => 'types_table' %>
+</div>
+</div>
