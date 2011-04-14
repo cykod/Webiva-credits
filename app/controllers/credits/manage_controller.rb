@@ -36,25 +36,29 @@ class Credits::ManageController < ModuleController
   
   active_table :transactions_table,
                 CreditTransaction,
-                [ :credits,
-                  :occurred_at
+                [ hdr(:string, 'end_users.full_name'),
+                  hdr(:static, 'Type'),
+                  :amount,
+                  :note,
+                  :purchased,
+                  :created_at,
+                  :updated_at
                 ]
   
   def display_transactions_table(display=true)
-    @user_credit ||= CreditUserCredit.find params[:path][0]
+    @user_credit ||= CreditUserCredit.find(params[:path][0]) if params[:path][0]
 
     active_table_action 'transaction' do |act,ids|
     end
 
-    @active_table_output = transactions_table_generate params,
-    :conditions => ['credit_transactions.credit_user_credit_id = ?', @user_credit.id],
-    :order => 'credit_transactions.occurred_at DESC'
+    conditions = @user_credit ? ['credit_transactions.credit_user_credit_id = ?', @user_credit.id] : nil
+    @active_table_output = transactions_table_generate params, :conditions => conditions, :order => 'credit_transactions.created_at DESC', :joins => [:end_user], :include => :credit_user_credit
 
     render :partial => 'transactions_table' if display
   end
   
   def transactions
-    @user_credit = CreditUserCredit.find params[:path][0]
+    @user_credit = CreditUserCredit.find(params[:path][0]) if params[:path][0]
     cms_page_path ['Content', 'Users Credits'], 'Transactions'
     display_transactions_table false
   end

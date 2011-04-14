@@ -1,9 +1,14 @@
 <% active_table_for :transactions_table, @active_table_output,
-   :refresh_url => url_for(:action => 'transactions', :path => @user_credit.id) do |t| %>
+   :refresh_url => url_for(:action => 'display_transactions_table', :path => @user_credit ? @user_credit.id : nil) do |t| %>
   <%- active_tr 'transaction', t.id do %>
+    <td><%= link_to t.end_user.name, :action => 'transactions', :path => t.credit_user_credit_id %></td>
+    <td><%= t.type_name %></td>
     <td align="center">
-      <%= content_type :span, t.credits, :style => t.credits >= 0 ? 'color:green;' : 'color:red;' %>
+      <%= content_tag :span, t.amount, :style => t.amount >= 0 ? 'color:green;' : 'color:red;' %>
     </td>
-    <td><%= t.occurred_at.strftime("%m/%d/%Y") %></td>
+    <td><%= h t.note %></td>
+    <td align="center"><%= t.purchased ? 'Yes'.t : 'No'.t %></td>
+    <td><%= t.created_at.strftime("%m/%d/%Y") %></td>
+    <td><%= t.updated_at.strftime("%m/%d/%Y") %></td>
   <% end -%>
 <% end -%>

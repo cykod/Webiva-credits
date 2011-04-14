@@ -1,6 +1,7 @@
 class CreditTransaction < DomainModel
   belongs_to :credit_user_credit
-  
+  has_end_user :end_user_id
+
   validates_presence_of :credit_user_credit_id
   validates_presence_of :amount
   
@@ -20,6 +21,10 @@ class CreditTransaction < DomainModel
 
   def price
     self.credit_user_credit.price
+  end
+
+  def type_name
+    self.credit_user_credit.credit_type.name
   end
 
   # cart functions

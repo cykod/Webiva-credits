@@ -8,7 +8,7 @@ class Credits::PageRenderer < ParagraphRenderer
 
     return render_paragraph :text => 'Configure Buy Paragraph' unless @options.credit_type
     
-    @user = @options.credit_type.push_user(myself.id) if myself.id
+    @user = @options.credit_type.push_user(myself) if myself.id
 
     cart = nil
     product = nil
