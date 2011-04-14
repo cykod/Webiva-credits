@@ -20,7 +20,7 @@ class Credits::PageRenderer < ParagraphRenderer
       @credits.amount = product.quantity if product
     end
 
-    if request.post? && @credits && params[:credits]
+    if request.post? && ! editor? && @credits && params[:credits]
       amount = (params[:credits][:amount] || 0).to_i
 
       # remove the credits

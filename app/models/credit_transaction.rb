@@ -9,6 +9,14 @@ class CreditTransaction < DomainModel
   before_create :set_defaults
   after_save :add_credits_to_user
 
+  def self.by_user(user)
+    self.where(:end_user_id => user.id)
+  end
+
+  def self.by_achievement(achievement)
+    self.where(:achievement_id => achievement.id, :achievement_type => achievement.class.to_s.underscore)
+  end
+  
   def set_defaults
     self.end_user_id = self.credit_user_credit.end_user_id if self.credit_user_credit
   end
