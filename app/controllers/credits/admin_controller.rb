@@ -21,7 +21,7 @@ class Credits::AdminController < ModuleController
   
   public
   def self.get_credits_info
-    [ { :name => 'Credit Types', :url => { :controller => '/credits/admin', :action => 'types' }, :permission => :credits_config }
+    [ { :name => 'Credits', :url => { :controller => '/credits/manage', :action => 'user_credits' }, :permission => :credits_manage }
     ]
   end
 

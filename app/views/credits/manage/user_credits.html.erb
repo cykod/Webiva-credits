@@ -1,3 +1,11 @@
+<% if myself.has_role?('credits_config') %>
+  <% action_panel :more => true do |p| -%>
+  <% end -%>
+  
+  <% more_action_panel do |p| -%>
+    <%= p.link 'Credit Types', :controller => 'admin', :action => 'types', :icon => 'view.gif' %>
+  <% end -%>
+<% end -%>
 
 <div class='admin_content'>
 <div id='user_credits_table'>
