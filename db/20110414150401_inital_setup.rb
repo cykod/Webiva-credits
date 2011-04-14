@@ -2,6 +2,7 @@ class InitalSetup < ActiveRecord::Migration
   def self.up
     create_table :credit_types, :force => true do |t|
       t.string :name
+      t.decimal :price, :precision=> 14, :scale => 2
       t.timestamps
     end
     
@@ -15,8 +16,12 @@ class InitalSetup < ActiveRecord::Migration
     
     create_table :credit_transactions, :force => true do |t|
       t.integer :credit_user_credit_id
-      t.integer :credits
-      t.datetime :occurred_at
+      t.integer :end_user_id
+      t.integer :amount
+      t.boolean :purchased, :default => false
+      t.text :note
+      t.integer :admin_user_id
+      t.timestamps
     end
   end
 

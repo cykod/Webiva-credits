@@ -14,21 +14,24 @@ class CreditUserCredit < DomainModel
     self.end_user.name
   end
 
-  def add_credits(credits)
+  def add_credits(credits, opts={})
     credits = credits.to_i
     self.connection.update "UPDATE credit_user_credits SET total_credits = total_credits + #{credits} WHERE id = #{self.id}"
     self.total_credits += credits
-    self.credit_transactions.create :credits => credits
+
+    # when credits are being purchased, we've already created a transaction
+    self.credit_transactions.create(:amount => credits, :note => '[Earned credits]') unless opts[:skip]
+
     true
   end
   
-  def use_credits(credits)
+  def use_credits(credits, opts={})
     credits = credits.to_i
     affected_rows = self.connection.update "UPDATE credit_user_credits SET total_credits = total_credits - #{credits}, used_credits = used_credits + #{credits} WHERE id = #{self.id} AND (total_credits - #{credits}) >= 0"
     return false unless affected_rows == 1
     self.total_credits -= credits
     self.used_credits += credits
-    self.credit_transactions.create :credits => -credits
+    self.credit_transactions.create :amount => -credits, :note => '[Used credits]'
     true
   end
   
@@ -38,6 +41,10 @@ class CreditUserCredit < DomainModel
   end
 
   def initial_transaction
-    self.credit_transactions.create(:credits => self.total_credits) if self.total_credits > 0
+    self.credit_transactions.create(:amount => self.total_credits, :note => '[Initail credits]') if self.total_credits > 0
+  end
+
+  def price
+    self.credit_type.price
   end
 end

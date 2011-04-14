@@ -28,7 +28,9 @@ class Credits::AdminController < ModuleController
   active_table :types_table,
                 CreditType,
                 [ :name,
-                  :created_at
+                  :price,
+                  :created_at,
+                  :updated_at
                 ]
 
   def display_types_table(display=true)
