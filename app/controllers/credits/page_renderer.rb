@@ -23,6 +23,12 @@ class Credits::PageRenderer < ParagraphRenderer
     if request.post? && ! editor? && @credits && params[:credits]
       amount = (params[:credits][:amount] || 0).to_i
 
+      if @options.testing?
+        @user.add_credits @options.test_credits, :note => "[Testing (#{site_node.node_path})]"
+        redirect_paragraph @options.test_success_page_url
+        return
+      end
+
       # remove the credits
       if product && amount == 0
         cart.edit_product @credits, 0
