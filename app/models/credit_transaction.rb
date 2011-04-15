@@ -33,13 +33,21 @@ class CreditTransaction < DomainModel
   end
 
   def type_name
-    self.credit_user_credit.credit_type.name
+    self.credit_type.name
+  end
+
+  def credit_type
+    self.credit_user_credit.credit_type
+  end
+
+  def credit_type_id
+    self.credit_user_credit.credit_type.id if self.credit_user_credit
   end
 
   # cart functions
 
   def name
-    self.credit_user_credit.credit_type.name
+    self.credit_type.name
   end
 
   def coupon?

@@ -20,18 +20,22 @@ class CreditUserCredit < DomainModel
     self.total_credits += credits
 
     # when credits are being purchased, we've already created a transaction
-    self.credit_transactions.create(:amount => credits, :note => '[Earned credits]') unless opts[:skip]
+    opts[:amount] = credits
+    opts[:note] ||= '[Earned credits]'
+    self.credit_transactions.create(opts) unless opts.delete(:skip)
 
     true
   end
   
   def use_credits(credits, opts={})
-    credits = credits.to_i
+    credits = credits.to_i.abs
     affected_rows = self.connection.update "UPDATE credit_user_credits SET total_credits = total_credits - #{credits}, used_credits = used_credits + #{credits} WHERE id = #{self.id} AND (total_credits - #{credits}) >= 0"
     return false unless affected_rows == 1
     self.total_credits -= credits
     self.used_credits += credits
-    self.credit_transactions.create :amount => -credits, :note => '[Used credits]'
+    opts[:amount] = -credits
+    opts[:note] ||= '[Used credits]'
+    self.credit_transactions.create opts
     true
   end
   

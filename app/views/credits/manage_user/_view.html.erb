@@ -1,0 +1,34 @@
+<script>
+CreditsData = {
+  viewTransactions: function() {
+    $j('#tab_<%= @tab %>').load("<%= url_for :action => 'view', :path => @user.id, :tab => @tab %>");
+  }
+}
+</script>
+
+<div style="padding-bottom:5px;">
+<%= CreditType.all.collect do |credit_type|
+      credit_user = credit_type.credit_user_credits.where(:end_user_id => @user.id).first
+      total_credits = credit_user ? credit_user.total_credits : 0
+      used_credits = credit_user ? credit_user.used_credits : 0
+      content_tag :div, "#{credit_type.name}: remaining(#{total_credits}), used(#{used_credits})" 
+    end.join(tag(:br)) %>
+</div>
+
+<% ajax_tabs ['Transactions', ['Add / Remove Credits', jvh("$j('#transaction').load('#{url_for(:action => 'transaction', :path => @user.id, :tab => @tab)}')")]], 'Transactions' do |t| -%>
+
+<% t.tab do -%>
+
+<div class='admin_content'>
+<div id='transactions_table'>
+<%= render :partial => 'transactions_table' %>
+</div>
+</div>
+<% end -%>
+
+<% t.tab do -%>
+<div id="transaction">
+</div>
+<% end -%>
+
+<% end -%>
