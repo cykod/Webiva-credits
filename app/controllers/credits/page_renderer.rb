@@ -24,7 +24,8 @@ class Credits::PageRenderer < ParagraphRenderer
       amount = (params[:credits][:amount] || 0).to_i
 
       if @options.testing?
-        @user.add_credits @options.test_credits, :note => "[Testing (#{site_node.node_path})]"
+        credits_to_give = @options.test_credits - @user.total_credits
+        @user.add_credits(credits_to_give, :note => "[Testing (#{site_node.node_path})]") if credits_to_give > 0
         redirect_paragraph @options.test_success_page_url
         return
       end
