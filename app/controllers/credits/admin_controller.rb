@@ -18,7 +18,8 @@ class Credits::AdminController < ModuleController
   permit 'credits_config'
 
   register_handler :members, :view,  "Credits::ManageUserController"
-  
+  register_handler :facebooked, :rewards, 'Credits::FacebookedRewards'
+
   content_model :credits
   
   public

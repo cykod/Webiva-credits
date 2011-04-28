@@ -14,7 +14,7 @@ class CreditTransaction < DomainModel
   end
 
   def self.by_achievement(achievement)
-    self.where(:achievement_id => achievement.id, :achievement_type => achievement.class.to_s.underscore)
+    self.where(:achievement_id => achievement.id, :achievement_type => achievement.class.to_s)
   end
   
   def set_defaults
