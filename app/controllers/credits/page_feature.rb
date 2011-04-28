@@ -34,4 +34,16 @@ class Credits::PageFeature < ParagraphFeature
     end
   end
 
+  feature :credits_page_reward_source_user, :default_feature => <<-FEATURE
+  <cms:source>
+    <cms:name/> was rewarded <cms:credits/> credit
+  </cms:source>
+  FEATURE
+
+  def credits_page_reward_source_user_feature(data)
+    webiva_feature(:credits_page_reward_source_user, data) do |c|
+      c.value_tag('credits') { |t| data[:options].credits }
+      c.user_tags('source') { |t| t.locals.user = data[:source_user] }
+    end
+  end
 end

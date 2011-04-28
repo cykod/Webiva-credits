@@ -2,6 +2,7 @@ class Credits::PageRenderer < ParagraphRenderer
   features '/credits/page_feature'
 
   paragraph :buy
+  paragraph :reward_source_user
 
   def buy
     @options = paragraph_options :buy
@@ -54,6 +55,27 @@ class Credits::PageRenderer < ParagraphRenderer
     end
     
     render_paragraph :feature => :credits_page_buy
+  end
+
+  def reward_source_user
+    @options = paragraph_options :reward_source_user
+    return render_paragraph :nothing => true unless myself.id && @options.credit_type
+    
+    if editor?
+      @source_user = EndUser.first
+      render_paragraph :feature => :credits_page_reward_source_user
+      return
+    end
+
+    @source_user = myself.source_user
+    if @source_user
+      unless CreditTransaction.by_achievement(myself).where(:end_user_id => @source_user.id).first
+        credit_user = @options.credit_type.push_user(@source_user)
+        credit_user.add_credits @options.credits, :note => '[Source user credits]', :achievement => myself
+      end
+    end
+    
+    render_paragraph :feature => :credits_page_reward_source_user
   end
 
   protected
