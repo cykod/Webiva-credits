@@ -35,4 +35,9 @@ class Credits::ShareRewards < HashModel
   def credit_type_options
     CreditType.select_options_with_nil
   end
+
+  def features(c, data, base='reward')
+    c.value_tag("#{base}:credits") { |t| self.credits }
+    c.h_tag("#{base}:name") { |t| self.credit_type.name if self.credit_type }
+  end
 end
