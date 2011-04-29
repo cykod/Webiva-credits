@@ -21,7 +21,6 @@ class Credits::FacebookedRewards < HashModel
   end
 
   def reward(oauth_user, friends)
-    Rails.logger.error self.credit_type.inspect
     return unless self.credit_type
     
     friends.each do |user|

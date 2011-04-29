@@ -19,6 +19,7 @@ class Credits::AdminController < ModuleController
 
   register_handler :members, :view,  "Credits::ManageUserController"
   register_handler :facebooked, :rewards, 'Credits::FacebookedRewards'
+  register_handler :share, :rewards, 'Credits::ShareRewards'
 
   content_model :credits
   

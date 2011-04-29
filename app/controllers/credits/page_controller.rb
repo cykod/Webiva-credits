@@ -3,7 +3,6 @@ class Credits::PageController < ParagraphController
   editor_header 'Credits Paragraphs'
   
   editor_for :buy, :name => "Buy", :feature => :credits_page_buy
-  editor_for :reward_source_user, :name => 'Reward Source User', :feature => :credits_page_reward_source_user
 
   class BuyOptions < HashModel
     attributes :success_page_id => nil, :credit_type_id => nil, :test_credits => nil, :test_success_page_id => nil
@@ -27,27 +26,6 @@ class Credits::PageController < ParagraphController
 
     def credit_type
       @credit_type ||= CreditType.where(:id => self.credit_type_id).first
-    end
-
-    def credit_type_options
-      CreditType.select_options_with_nil
-    end
-  end
-  
-  class RewardSourceUserOptions < HashModel
-    attributes :credits => 1, :credit_type_id => nil
-    
-    validates_presence_of :credits, :credit_type_id
-    
-    integer_options :credits
-    
-    options_form(
-                 fld(:credit_type_id, :select, :options => :credit_type_options),
-                 fld(:credits, :text_field, :description => '# credits to give a user source')
-                 )
-
-    def credit_type
-      @credit_type ||= CreditType.where(:id => self.credit_type_id).first if self.credit_type_id
     end
 
     def credit_type_options
